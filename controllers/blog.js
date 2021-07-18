@@ -26,7 +26,6 @@ blogRouter.get('/', (request, response) => {
 blogRouter.post('/', (request, response, next) => {
   const body = request.body
 
->>>>>>> main
   if (typeof(body.title)==='undefined' || typeof(body.url)==='undefined'){
     return response.status(400).end()
   }
