@@ -59,6 +59,27 @@ describe('When there is initially one user in db', ()=>{
         expect(usersAtEnd).toHaveLength(usersAtStart.length)
     })
 
+    test('creation fails if username or password are not 3 characters long at least', async()=>{
+        const usersAtStart = await listHelper.usersInDb()
+        
+        const newUser = {
+            username: "sa",
+            name: "santiago",
+            password: "0000",
+        }
+
+        const result = await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        expect(result.body.error).toContain('username and password must be at least 3 characters long')
+
+        const usersAtEnd = await listHelper.usersInDb()
+        expect(usersAtEnd).toHaveLength(usersAtStart.length)
+    })
+
     afterAll(()=>{
         mongoose.connection.close()
     })
