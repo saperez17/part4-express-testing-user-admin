@@ -4,6 +4,7 @@ const loginRouter = require('express').Router()
 const User = require('../models/users')
 
 loginRouter.post('/', async(req, res)=>{
+    console.log('req.ehaders: ', req.headers)
     const body = req.body
 
     const user = await User.findOne({ username: body.username })
@@ -38,7 +39,7 @@ loginRouter.post('/', async(req, res)=>{
     //are used as the mechanism for transferring the token between the client and the server.
     res
         .status(200)
-        .send({ token, username:user.username, name:user.name })
+        .send({ token, username:user.username, userId:user._id })
 })
 
 module.exports = loginRouter

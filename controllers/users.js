@@ -45,6 +45,12 @@ usersRouter.post('/', async(request, response, next)=>{
 })
 
 usersRouter.get('/:id', async(request, response, next)=>{
+    const requestedUser = await User.findById(request.params.id).populate('notes')
+    console.log(requestedUser);
+    if (requestedUser === null){
+        return response.status(404) 
+    }
+   return response.status(200).json(requestedUser)
 })
 
 usersRouter.delete('/:id', async(request, response, next)=>{
